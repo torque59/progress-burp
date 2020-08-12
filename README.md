@@ -15,11 +15,11 @@ Features
 * Items can be filtered by:
   - status
   - tags (there are two filtering modes: **AND** - item has to have all filtering tags **OR** - item has to have at least one of the filtering tags)
-  
+
 * Exclude requests from capture based on the path extension or response status code
 * Selected items can be sent to the Burp Suite tools: Intruder, Repeater or Scanner
 * Selected item is displayed in the full functional Burp Suite HTTP message editor
-  
+
 * Path patterns - unique key of the request is defined by target, path and method. However it can be usefull to define path pattern (regexp) to consider different requests as the same item (e.g. /article/\d+?/comments path pattern groups following requests: /article/1/comments, /article/2/comments, /article/100/comments, etc.)
 
 * Optionally, items and path patterns can be persisted to keep the state between Burp Suite launches (please see [Requirements](#Requirements))
@@ -48,6 +48,11 @@ If you install extension manually, and you want to persist items and path patter
 2) Put downloaded driver (jar file) in the folder on the disk (e.g. /home/user/burpsuite-jars)
 3) Set Burp Suite option (Extender -> Options -> Java Environment) to the path of folder with the driver
 4) Reload the extension
+
+Load Existing DB
+----------------
+When loading an existing DB, the Dialogue box asks `whether to overwrite existing DB`. Click Yes and the next dialogue box asks the following:
+`Use existing DB` click yes to use existing DB or no to reuse the existing DB but truncated.
 
 Changes
 -------

@@ -571,7 +571,7 @@ class BurpExtender(IBurpExtender, IExtensionStateListener):
         callbacks.addSuiteTab(ProgressTab())
         callbacks.registerExtensionStateListener(self)
         callbacks.registerHttpListener(HttpListener())
-        callbacks.setExtensionName('Progress Tracker v1.1')
+        callbacks.setExtensionName('Progress Tracker v1.2')
 
     def extensionUnloaded(self):
         EventBus().notify(EventBus.EVENT_EXTENSION_UNLOADED, None)
@@ -811,7 +811,6 @@ class DatabasePanel(JPanel, ActionListener):
         button = JButton('Save as...')
         button.addActionListener(self)
         self.add(button)
-
 
 class DeleteSelectedObjectsCommand(object):
     TYPE_ITEM = 1
@@ -1747,12 +1746,20 @@ class Persistence(DomainDict):
 
     def _prepare_database_file(self, database_path):
         try:
+            existing_db_use = False
             if os.path.exists(database_path):
-                if not self._ui_services.confirm('File already exists. Are you sure you want to replace it?'):
+                if not self._ui_services.confirm('File already exists. Are you sure you want to replace/reuse it?'):
                     return False
-            with open(database_path, 'ab') as f:
-                f.truncate(0)
-            return True
+                existing_db_use = self._ui_services.confirm('Use Existing DB {}'.format(database_path))
+
+            if existing_db_use:
+                self._values['database_path'] = database_path
+                self._load()
+                return False
+            else:
+                with open(database_path, 'ab') as f:
+                    f.truncate(0)
+                return True
         except IOError as e:
             self._ui_services.display_error(str(e))
 
